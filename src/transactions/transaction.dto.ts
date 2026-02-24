@@ -1,35 +1,28 @@
-import { IsDate, IsIn, IsInt, IsNotEmpty, isString, IsString, IsUUID } from "class-validator";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export class TransactiondDto {
-    @IsNotEmpty()
-    @IsUUID()
-    id: string
+@Entity({ name: "transactions" })
+export class TransactionDto {
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-    @IsNotEmpty()
-    @IsInt()
-    amount: number
+    @Column({ type: "numeric" })
+    amount: number;
 
-    @IsNotEmpty()
-    @IsString()
-    categoryId: string
+    @Column({ name: "categoryid", type: "text" })
+    categoryId: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @IsIn(['income', 'expense'])
-    type: string
+    @Column({ type: "text" })
+    type: "income" | "expense";
 
-    @IsNotEmpty()
-    @IsDate()
-    date: Date
+    @Column({ type: "date" })
+    date: Date;
 
-    @IsString()
-    description: string
+    @Column({ type: "text", nullable: true })
+    description?: string;
 
-    @IsNotEmpty()
-    @IsDate()
-    createdAt: Date
+    @CreateDateColumn({ name: "createdat", type: "timestamp" })
+    createdAt: Date;
 
-    @IsNotEmpty()
-    @IsDate()
-    updatedAt: Date
+    @UpdateDateColumn({ name: "updatedat", type: "timestamp" })
+    updatedAt: Date;
 }
