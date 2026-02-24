@@ -14,9 +14,6 @@ export class TransactionDto {
     @Column({ type: "text" })
     type: "income" | "expense";
 
-    @Column({ type: "date" })
-    date: Date;
-
     @Column({ type: "text", nullable: true })
     description?: string;
 

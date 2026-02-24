@@ -1,14 +1,16 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { supabase } from "supabase.config";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { TransactionDto } from "./transaction.dto";
 
 @Injectable()
-export class TransactionService { 
+export class TransactionService {
+    constructor(
+        @InjectRepository(TransactionDto)
+        private readonly transactionRepo: Repository<TransactionDto>,
+    ) {}
+
     async getTransactions() {
-        const {data: transactions, error} = await supabase.from('transactions').select('*')
-        if ( error) {
-            throw new Error('Failed to fetch transactions from database')
-        }
-        console.log("transactions", transactions)
-        return transactions
+        return this.transactionRepo.find();
     }
 }
